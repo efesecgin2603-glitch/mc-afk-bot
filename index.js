@@ -5,7 +5,7 @@ function createBot() {
     host: 'smp113.falixsrv.me', // IP adresin ayarlandı
     port: 25565,                // Varsayılan port
     username: 'AFK_Bot_724',
-    version: false
+    version: 26.2
   });
 
   bot.on('spawn', () => {
