@@ -7,10 +7,15 @@ function createBot() {
     host: 'smp113.falixsrv.me',
     port: 25565,
     username: 'AFK_Bot_724',
-    // version parametresini kaldırdık ki geçersiz sürüm hatası vermesin
-    skipValidation: true,
+    version: '1.20.4',
+    hideErrors: false,
     checkTimeoutInterval: 60 * 1000
   });
+
+  // Otomatik sürüm sorgusunun çökmesini engelleyen protokol yaması
+  if (bot._client) {
+    bot._client.autoVersion = false;
+  }
 
   bot.on('spawn', () => {
     console.log('Bot sunucuya başarıyla girdi!');
@@ -27,14 +32,14 @@ function createBot() {
       setTimeout(() => bot.setControlState('jump', false), 1000);
     }, 15000);
 
-    // Etrafa bakma (10 saniyede bir)
+    // Etrafa bakma hareketi (10 saniyede bir)
     setInterval(() => {
       const yaw = Math.random() * Math.PI * 2;
       const pitch = (Math.random() - 0.5) * Math.PI;
       bot.look(yaw, pitch, true);
     }, 10000);
 
-    // İleri-geri adım (20 saniyede bir)
+    // İleri-geri hareket (20 saniyede bir)
     setInterval(() => {
       bot.setControlState('forward', true);
       setTimeout(() => {
@@ -45,8 +50,8 @@ function createBot() {
     }, 20000);
   });
 
-  bot.on('end', () => {
-    console.log('Bağlantı koptu, 5 saniye sonra tekrar deneniyor...');
+  bot.on('end', (reason) => {
+    console.log(`Bağlantı koptu (${reason}), 5 saniye sonra tekrar deneniyor...`);
     setTimeout(createBot, 5000);
   });
 
