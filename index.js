@@ -1,38 +1,39 @@
 const mineflayer = require('mineflayer');
 
-const BOT_PASSWORD = 'AfkBotPassword123!'; // Botun sunucudaki şifresi
+const BOT_PASSWORD = 'AfkBotPassword123!';
 
 function createBot() {
   const bot = mineflayer.createBot({
     host: 'smp113.falixsrv.me',
     port: 25565,
     username: 'AFK_Bot_724',
-    version: '1.20.1'
+    version: '1.20.4', // Sunucunun istediği tam sürüm (Protokol 26.2 / 765)
+    checkTimeoutInterval: 60 * 1000
   });
 
   bot.on('spawn', () => {
     console.log('Bot sunucuya başarıyla girdi!');
 
-    // 1. Otomatik Kayıt ve Giriş Yapma
+    // Otomatik Kayıt & Giriş
     setTimeout(() => {
       bot.chat(`/register ${BOT_PASSWORD} ${BOT_PASSWORD}`);
       bot.chat(`/login ${BOT_PASSWORD}`);
-    }, 2000); // Sunucuya girdikten 2 saniye sonra komutları gönderir
+    }, 3000);
 
-    // 2. Zıplama hareketi (15 saniyede bir)
+    // Zıplama hareketi (15 saniyede bir)
     setInterval(() => {
       bot.setControlState('jump', true);
       setTimeout(() => bot.setControlState('jump', false), 1000);
     }, 15000);
 
-    // 3. Etrafa bakma hareketi (10 saniyede bir)
+    // Etrafa bakma (10 saniyede bir)
     setInterval(() => {
       const yaw = Math.random() * Math.PI * 2;
       const pitch = (Math.random() - 0.5) * Math.PI;
       bot.look(yaw, pitch, true);
     }, 10000);
 
-    // 4. İleri-geri küçük adımlar (20 saniyede bir)
+    // İleri-geri adım (20 saniyede bir)
     setInterval(() => {
       bot.setControlState('forward', true);
       setTimeout(() => {
