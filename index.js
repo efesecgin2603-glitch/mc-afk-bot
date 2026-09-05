@@ -1,4 +1,16 @@
 const mineflayer = require('mineflayer');
+const states = require('minecraft-protocol').states;
+const minecraftData = require('minecraft-data');
+
+// Sunucunun döndürdüğü 26.2 protokol yanıtını 1.20.4 sürüm haritasına yönlendirme yaması
+try {
+  const supportedVersions = require('minecraft-protocol/src/version').supportedVersions;
+  if (supportedVersions && !supportedVersions.includes('26.2')) {
+    minecraftData.versionsByFull['26.2'] = minecraftData.versionsByFull['1.20.4'];
+  }
+} catch (e) {
+  // Yönlendirme başarısız olursa varsayılan akışa devam eder
+}
 
 const BOT_PASSWORD = 'AfkBotPassword123!';
 
@@ -7,7 +19,7 @@ function createBot() {
     host: 'smp113.falixsrv.me',
     port: 25565,
     username: 'AFK_Bot_724',
-    version: '26.2',
+    version: '1.20.4',
     checkTimeoutInterval: 60 * 1000
   });
 
@@ -26,14 +38,14 @@ function createBot() {
       setTimeout(() => bot.setControlState('jump', false), 1000);
     }, 15000);
 
-    // Etrafa bakma hareketi (10 saniyede bir)
+    // Etrafa bakma (10 saniyede bir)
     setInterval(() => {
       const yaw = Math.random() * Math.PI * 2;
       const pitch = (Math.random() - 0.5) * Math.PI;
       bot.look(yaw, pitch, true);
     }, 10000);
 
-    // İleri-geri hareket (20 saniyede bir)
+    // İleri-geri adım (20 saniyede bir)
     setInterval(() => {
       bot.setControlState('forward', true);
       setTimeout(() => {
