@@ -7,15 +7,9 @@ function createBot() {
     host: 'smp113.falixsrv.me',
     port: 25565,
     username: 'AFK_Bot_724',
-    version: '1.20.4',
-    hideErrors: false,
+    version: '26.2',
     checkTimeoutInterval: 60 * 1000
   });
-
-  // Otomatik sürüm sorgusunun çökmesini engelleyen protokol yaması
-  if (bot._client) {
-    bot._client.autoVersion = false;
-  }
 
   bot.on('spawn', () => {
     console.log('Bot sunucuya başarıyla girdi!');
