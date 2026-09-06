@@ -1,6 +1,17 @@
+const http = require('http');
 const mineflayer = require('mineflayer');
 const states = require('minecraft-protocol').states;
 const minecraftData = require('minecraft-data');
+
+// Render.com 'Web Service' port taramasını geçmek için HTTP sunucusu
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+  res.write('Bot aktif ve çalışıyor!');
+  res.end();
+}).listen(PORT, '0.0.0.0', () => {
+  console.log(`HTTP web sunucusu ${PORT} portunda başlatıldı.`);
+});
 
 // Sunucunun döndürdüğü 26.2 protokol yanıtını 1.20.4 sürüm haritasına yönlendirme yaması
 try {
@@ -57,11 +68,11 @@ function createBot() {
   });
 
   bot.on('end', (reason) => {
-    console.log(`Bağlantı koptu (${reason}), 5 saniye sonra tekrar deneniyor...`);
-    setTimeout(createBot, 5000);
+    console.log(`Bağlantı koptu (${reason}), 10 saniye sonra tekrar deneniyor...`);
+    setTimeout(createBot, 10000);
   });
 
-  bot.on('error', err => console.log('Hata oluştu:', err));
+  bot.on('error', err => console.log('Minecraft Bot Hatası:', err));
 }
 
 createBot();
